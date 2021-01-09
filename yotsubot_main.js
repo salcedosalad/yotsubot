@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+//feedback message for terminal
 client.once('ready', () => {
     console.log('Yotsubot is online!');
 });
