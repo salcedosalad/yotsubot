@@ -55,21 +55,19 @@ module.exports = {
 
             collector.on('collect', (reaction, user) => {
                 console.log(`collected ${reaction.emoji.name} from ${user.tag}`);
-                if (reaction.emoji.name === '➡️' && page !== MAX) {
-                    msg.edit(help[++page]);
+                if (reaction.emoji.name === '➡️') {
+                    if (page === MAX)
+                        page = MIN;
+                    else
+                        page++;
+                    msg.edit(help[page]);
                 }  
-                else if (reaction.emoji.name === '⬅️' && page !== MIN) {
-                    msg.edit(help[--page]);
-                }
-            })
-
-            collector.on('dispose', (reaction, user) => {
-                console.log(`disposed ${reaction.emoji.name} from ${user.tag}`);
-                if (reaction.emoji.name === '➡️' && page !== MAX) {
-                    msg.edit(help[++page]);
-                }  
-                else if (reaction.emoji.name === '⬅️' && page !== MIN) {
-                    msg.edit(help[--page]);
+                else if (reaction.emoji.name === '⬅️') {
+                    if (page === MIN)
+                        page = MAX;
+                    else
+                        page--;
+                    msg.edit(help[page]);
                 }
             })
 

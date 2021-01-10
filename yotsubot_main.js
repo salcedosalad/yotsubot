@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const prefix = 'y:';
+const { token } = require('./config.json');
 
 const fs = require('fs');
 client.commands = new Discord.Collection();
@@ -67,4 +68,4 @@ client.on('message', message => {
 
 //make sure this is executed last
 //if on github, note any token here is no longer valid
-client.login('token here');
+client.login(token);
