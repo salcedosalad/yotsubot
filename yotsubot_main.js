@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const prefix = '-y ';
+const prefix = 'y:';
 
 const fs = require('fs');
 client.commands = new Discord.Collection();
@@ -16,7 +16,7 @@ for (const file of commandFiles) {
 client.once('ready', () => {
     console.log('Yotsubot is online!');
     client.user.setStatus('online');
-    client.user.setActivity(`${prefix}`, { type: 'LISTENING' });
+    client.user.setActivity(`${prefix}help | (Mat's Discord Bot)`, { type: 'PLAYING' });
 });
 
 client.on('message', message => {
@@ -28,10 +28,24 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(' ');
     const command = args.shift().toLowerCase();
 
+    //commands local to salcedosalad's machine, these may be deleted
+    if (command === 'aherosjourney')
+        return client.commands.get('aherosjourney').execute(message, args);
+    else if (command === 'whenyou')
+        return client.commands.get('whenyou').execute(message, args);
+
     //if statement for each command is found here
     //each command has an associated .js file that contains the behavior/methods of that command
     //commands are stored in the "commands" folder
-    if (command === 'ping')
+    if (command === 'help') {
+        if (args.length === 1) {
+            if (client.commands.get(args[0]))
+                message.channel.send(client.commands.get(args[0]).description);
+        }
+        else
+            client.commands.get('help').execute(message, args, Discord);
+    }
+    else if (command === 'ping')
         client.commands.get('ping').execute(message, args);
     else if (command === 'argtest')
         client.commands.get('argtest').execute(message, args);
@@ -43,6 +57,10 @@ client.on('message', message => {
         client.commands.get('multiply').execute(message, args);
     else if (command === '/')
         client.commands.get('divide').execute(message, args);
+    else if (command === 'say')
+        client.commands.get('say').execute(message, args);
+    else if (command === 'sadcatto')
+        client.commands.get('sadcatto').execute(message, args, Discord);
     else   
         message.channel.send(`Command not found, ${message.author}!`);
 });
