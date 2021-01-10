@@ -10,7 +10,7 @@ Current (committed) commands include:
 	add (+) - Adds all given numbers
 	subtract (-) - Subtracts all given numbers from L->R
 	multiply (*) - Multiplies all given numbers
-    	divide (/) - Divides all given numbers from L->R
+	divide (/) - Divides all given numbers from L->R
    	argtest - Tests command/argument parsing
    	ping - Checks if bot is responsive
    	say - Makes bot repeat given text
