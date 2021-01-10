@@ -1,6 +1,6 @@
 module.exports = {
     name: 'multiply',
-    description: "this is a basic multiplication command",
+    description: "This multiplies all numbers provided. `Ex. y:* 10 9 100`",
     execute(message, args) {
         if (!args.length)
             return message.channel.send(`No numbers provided.`);

@@ -1,6 +1,6 @@
 module.exports = {
     name: 'argtest',
-    description: "argument testing",
+    description: "This is purely for command testing. `Ex. y:argtest hello world`",
     execute(message, args) {
         if (args.length === 0) 
             return message.channel.send(`No arguments provided, ${message.author}!`);

@@ -1,7 +1,16 @@
+let x = 0;
+
 module.exports = {
     name: 'ping',
-    description: "this is a basic ping command",
+    description: "This tests if the bot is responding. `Ex. y:ping`",
     execute(message, args) {
-        message.channel.send('dont worry im here');
+        if (x > 3) {
+            message.channel.send('stop bothering me');
+            x = 0;
+        }
+        else {
+            message.channel.send('dont worry im here');
+            x++;
+        }
     }
 }

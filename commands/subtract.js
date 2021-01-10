@@ -1,6 +1,6 @@
 module.exports = {
     name: 'subtract',
-    description: "this is a basic subtraction command",
+    description: "This subtracts all numbers given from left to right. `Ex. y:- 10 9 8 7`",
     execute(message, args) {
         if (!args.length)
             return message.channel.send(`No numbers provided.`);

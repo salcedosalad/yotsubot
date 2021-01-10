@@ -1,6 +1,6 @@
 module.exports = {
     name: 'add',
-    description: "this is a basic addition command",
+    description: "This sums all numbers provided. `Ex. y:+ 9 10 11`",
     execute(message, args) {
         if (!args.length)
             return message.channel.send(`No numbers provided.`);

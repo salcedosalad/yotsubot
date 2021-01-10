@@ -1,6 +1,6 @@
 module.exports = {
     name: 'divide',
-    description: "this is a basic division command",
+    description: "This divides all numbers in order from left to right. `Ex. y:/ 90 3 6`",
     execute(message, args) {
         if (!args.length)
             return message.channel.send(`No numbers provided.`);
