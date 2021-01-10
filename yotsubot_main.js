@@ -66,4 +66,5 @@ client.on('message', message => {
 });
 
 //make sure this is executed last
-client.login('Nzk3NTgyODQ4MDUwNzI0OTE1.X_ok6Q.U3aHYy2dkQ34V0kw5f-Xg4Vqr5E');
+//if on github, note any token here is no longer valid
+client.login('token here');
