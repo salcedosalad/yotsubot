@@ -27,6 +27,17 @@ module.exports = {
 
         help[1] = new Discord.MessageEmbed()
         .setColor('#ffb74a')
+        .setTitle('Commands - Music')
+        .setDescription("Type `y:help [command]` for examples")
+        .addFields(
+            {name: 'play', value: 'Searches for and plays audio from a YouTube video.'},
+            {name: 'stop', value: 'Stops playing music and leaves the voice channel.'},
+        )
+        .setThumbnail('https://i.imgur.com/cR5qQgW.jpg')
+        .setFooter(`Page 2 of ${MAX+1}`);
+
+        help[2] = new Discord.MessageEmbed()
+        .setColor('#ffb74a')
         .setTitle('Commands - Simple Arithmetic')
         .setDescription("Type `y:help [command]` for examples")
         .addFields(
@@ -36,9 +47,9 @@ module.exports = {
             {name: '/', value: 'Divides all numbers provided (left to right).'}
         )
         .setThumbnail('https://i.imgur.com/cR5qQgW.jpg')
-        .setFooter(`Page 2 of ${MAX+1}`);
+        .setFooter(`Page 3 of ${MAX+1}`);
 
-        help[2] = new Discord.MessageEmbed()
+        help[3] = new Discord.MessageEmbed()
         .setColor('#ffb74a')
         .setTitle('Commands - Extra')
         .setDescription("Type `y:help [command]` for examples")
@@ -46,7 +57,7 @@ module.exports = {
             {name: 'sadcatto', value: 'When your hunter carts again :('},
         )
         .setThumbnail('https://i.imgur.com/cR5qQgW.jpg')
-        .setFooter(`Page 3 of ${MAX+1}`);
+        .setFooter(`Page 4 of ${MAX+1}`);
 
         message.channel.send(help[page]).then(msg => {
             msg.react('⬅️').then(() => msg.react('➡️'))

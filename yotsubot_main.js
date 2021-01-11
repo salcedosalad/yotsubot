@@ -19,6 +19,12 @@ client.once('ready', () => {
     client.user.setStatus('online');
     client.user.setActivity(`${prefix}help | (Mat's Discord Bot)`, { type: 'PLAYING' });
 });
+client.once('reconnecting', () => {
+    console.log('Yotsubot is reconnecting!');
+});
+client.once('disconnect', () => {
+    console.log('Yotsubot is disconnecting!');
+});
 
 client.on('message', message => {
     //if the message doesn't have a prefix or is sent by another bot, ignore it
@@ -38,6 +44,8 @@ client.on('message', message => {
     //if statement for each command is found here
     //each command has an associated .js file that contains the behavior/methods of that command
     //commands are stored in the "commands" folder
+
+    //BASIC COMMANDS
     if (command === 'help') {
         if (args.length === 1) {
             if (client.commands.get(args[0]))
@@ -50,6 +58,10 @@ client.on('message', message => {
         client.commands.get('ping').execute(message, args);
     else if (command === 'argtest')
         client.commands.get('argtest').execute(message, args);
+    else if (command === 'say')
+        client.commands.get('say').execute(message, args);
+
+    //ARITHMETIC COMMANDS
     else if (command === '+')
         client.commands.get('add').execute(message, args);
     else if (command === '-')
@@ -58,10 +70,18 @@ client.on('message', message => {
         client.commands.get('multiply').execute(message, args);
     else if (command === '/')
         client.commands.get('divide').execute(message, args);
-    else if (command === 'say')
-        client.commands.get('say').execute(message, args);
+
+    //MUSIC COMMANDS
+    else if (command === 'play')
+        client.commands.get('play').execute(message, args, Discord);
+    else if (command === 'stop')
+        client.commands.get('stop').execute(message, args, Discord);
+    
+    //EXTRA COMMANDS
     else if (command === 'sadcatto')
         client.commands.get('sadcatto').execute(message, args, Discord);
+
+    //default case
     else   
         message.channel.send(`Command not found, ${message.author}!`);
 });
