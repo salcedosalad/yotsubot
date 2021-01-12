@@ -3,7 +3,7 @@ module.exports = {
     description: "This provides a list of commands or help with a specific command. `Ex. y:help or y:help say`",
     execute(message, args, Discord) {
         var page = 0;
-        const MAX = 2;
+        const MAX = 3;
         const MIN = 0;
 
         var help = new Array();
@@ -30,8 +30,10 @@ module.exports = {
         .setTitle('Commands - Music')
         .setDescription("Type `y:help [command]` for examples")
         .addFields(
-            {name: 'play', value: 'Searches for and plays audio from a YouTube video.'},
-            {name: 'stop', value: 'Stops playing music and leaves the voice channel.'},
+            {name: 'play', value: 'Searches for and plays audio from a YouTube video.\nIf something\'s already playing, the request is queued.'},
+            {name: 'leave', value: 'Stops playing music and leaves the voice channel.'},
+            {name: 'queue', value: 'Shows the current music request queue.'},
+            {name: 'clearqueue', value: 'Clears the music request queue.'}
         )
         .setThumbnail('https://i.imgur.com/cR5qQgW.jpg')
         .setFooter(`Page 2 of ${MAX+1}`);

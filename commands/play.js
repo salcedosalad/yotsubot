@@ -3,7 +3,7 @@ const ytSearch = require('yt-search');
 
 module.exports = {
     name: 'play',
-    description: "Searches and plays audio from YouTube. `Ex. y:play country roads gura`",
+    description: "This searches and plays audio from YouTube. `Ex. y:play country roads gura`",
     async execute(message, args, Discord) {
         const voiceChannel = message.member.voice.channel;
         const newEmbed = new Discord.MessageEmbed()
@@ -13,7 +13,7 @@ module.exports = {
         if (!voiceChannel)
             return message.channel.send(`You must be in a voice channel, ${message.author}!`);
         if (!args.length) 
-            return message.channel.send(`No link provided, ${message.author}!`);
+            return message.channel.send(`No input provided, ${message.author}!`);
 
         const permissions = voiceChannel.permissionsFor(message.client.user);
         if (!permissions.has('CONNECT') || !permissions.has('SPEAK'))
@@ -36,13 +36,13 @@ module.exports = {
             const music = ytdl(video.url, {filter: 'audioonly'});
             connection.play(music, {seek: 0, volume: 0.5})
             .on('finish', () => {
-                voiceChannel.leave();
+                message.channel.send(`Finished playing ***\`${video.title}\`***!`);
             });
 
             newEmbed.setDescription(`***\`${video.title}\`***`)
             newEmbed.setImage(video.thumbnail);
             newEmbed.addFields(
-                {name: `Requested by \`${message.author.username}\``, value: `${video.url}`}
+                {name: `Requested by \`${message.author.tag}\``, value: `${video.url}`}
             );
             await message.channel.send(newEmbed);
         }

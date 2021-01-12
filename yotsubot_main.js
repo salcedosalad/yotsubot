@@ -7,6 +7,10 @@ const fs = require('fs');
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+let queueMessage = new Array();
+let queueArgs = new Array();
+let playing = 0;
+
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
 
@@ -27,6 +31,15 @@ client.once('disconnect', () => {
 });
 
 client.on('message', message => {
+    //detects the end of a song the bot was playing and checks the queue for another song to play
+    if (message.author === client.user && message.content.startsWith('Finished playing')) {
+        console.log('Detected end of song!');
+        if (queueMessage.length !== 0)
+            client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord);
+        else
+            playing = 0;
+    }
+
     //if the message doesn't have a prefix or is sent by another bot, ignore it
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -72,10 +85,33 @@ client.on('message', message => {
         client.commands.get('divide').execute(message, args);
 
     //MUSIC COMMANDS
-    else if (command === 'play')
-        client.commands.get('play').execute(message, args, Discord);
-    else if (command === 'stop')
+    else if (command === 'play') {
+        //if a song is currently playing, push the request into the queue
+        if (playing) {
+            queueMessage.push(message);
+            queueArgs.push(args);
+            client.commands.get('queueMessage').execute(message, args, Discord, queueMessage.length);
+        }
+        //if there is no song playing, just fulfill the request
+        else {
+            playing = 1;
+            client.commands.get('play').execute(message, args, Discord);
+        }
+    }
+    else if (command === 'leave' || command === 'stop') {
         client.commands.get('stop').execute(message, args, Discord);
+        playing = 0;
+        queueMessage.length = 0;
+        queueArgs.length = 0;
+    }
+    else if (command === 'queue' || command === 'q') {
+        client.commands.get('queue').execute(message, args, Discord, queueMessage, queueArgs);
+    }
+    else if (command === 'clearqueue' || command === 'cq') {
+        queueMessage.length = 0;
+        queueArgs.length = 0;
+        client.commands.get('clearqueue').execute(message, args, Discord);
+    }
     
     //EXTRA COMMANDS
     else if (command === 'sadcatto')
