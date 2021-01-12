@@ -18,6 +18,7 @@ Current (committed) commands include:
 	leave - Stops playing music and leaves the voice channel
 	queue - Shows the current music request queue
 	clearqueue - Clears the music request queue
+	skip - Skips the song currently playing
 	
 	SIMPLE ARITHMETIC
 	add (+) - Adds all given numbers
