@@ -7,6 +7,7 @@ module.exports = {
         .setTitle(`Queued request for \`"${args.join(' ')}"\` by ${message.author.tag}!`)
         .setFooter(`Currently #${pos} in queue`);
 
+        console.log('Queued a song!');
         message.channel.send(queueEmbed);
     }
 }

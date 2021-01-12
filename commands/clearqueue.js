@@ -6,6 +6,7 @@ module.exports = {
         .setColor('#ffb74a')
         .setTitle(`The queue has been cleared! :+1:`)
 
+        console.log('Clearing queue!');
         message.channel.send(clearEmbed);
     }
 }

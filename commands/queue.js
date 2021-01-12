@@ -12,7 +12,7 @@ module.exports = {
         else {
              let i = 0;
              for (i = 0; i < queueMessage.length; i++) {
-                 queueEmbed.addField(`${i+1}. \`"${queueArgs[i].join(' ')}"\``, `Requested by ${message.author.tag}`, false);
+                 queueEmbed.addField(`${i+1}. \`"${queueArgs[i].join(' ')}"\``, `Requested by ${queueMessage[i].author.tag}`, false);
              }
              queueEmbed.setThumbnail('https://i.imgur.com/cR5qQgW.jpg');
         }

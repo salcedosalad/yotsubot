@@ -33,7 +33,8 @@ module.exports = {
             {name: 'play', value: 'Searches for and plays audio from a YouTube video.\nIf something\'s already playing, the request is queued.'},
             {name: 'leave', value: 'Stops playing music and leaves the voice channel.'},
             {name: 'queue', value: 'Shows the current music request queue.'},
-            {name: 'clearqueue', value: 'Clears the music request queue.'}
+            {name: 'clearqueue', value: 'Clears the music request queue.'},
+            {name: 'skip', value: 'Skips the current song being played.'}
         )
         .setThumbnail('https://i.imgur.com/cR5qQgW.jpg')
         .setFooter(`Page 2 of ${MAX+1}`);

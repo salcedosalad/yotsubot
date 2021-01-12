@@ -85,15 +85,15 @@ client.on('message', message => {
         client.commands.get('divide').execute(message, args);
 
     //MUSIC COMMANDS
-    else if (command === 'play') {
+    else if (command === 'play' || command === 'p') {
         //if a song is currently playing, push the request into the queue
         if (playing) {
             queueMessage.push(message);
             queueArgs.push(args);
             client.commands.get('queueMessage').execute(message, args, Discord, queueMessage.length);
         }
-        //if there is no song playing, just fulfill the request
-        else {
+        //if there is no song playing, just fulfill the request if there is one
+        else if (args.length) {
             playing = 1;
             client.commands.get('play').execute(message, args, Discord);
         }
@@ -111,6 +111,13 @@ client.on('message', message => {
         queueMessage.length = 0;
         queueArgs.length = 0;
         client.commands.get('clearqueue').execute(message, args, Discord);
+    }
+    else if (command === 'skip' || command === 's') {
+        client.commands.get('skip').execute(message, args, Discord);
+        if (queueMessage.length !== 0)
+            client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord);
+        else
+            playing = 0;
     }
     
     //EXTRA COMMANDS

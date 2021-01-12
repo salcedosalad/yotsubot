@@ -3,7 +3,7 @@ const ytSearch = require('yt-search');
 
 module.exports = {
     name: 'play',
-    description: "This searches and plays audio from YouTube. `Ex. y:play country roads gura`",
+    description: "This searches and plays audio from YouTube. `Ex. y:play country roads` or y:p country roads",
     async execute(message, args, Discord) {
         const voiceChannel = message.member.voice.channel;
         const newEmbed = new Discord.MessageEmbed()
@@ -18,36 +18,57 @@ module.exports = {
         const permissions = voiceChannel.permissionsFor(message.client.user);
         if (!permissions.has('CONNECT') || !permissions.has('SPEAK'))
             return message.channel.send(`You don't have correct permissions, ${message.author}!`);
+        
+        const checkUrl = (url) => {
+            var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+            return regexp.test(url);
+        }
 
-        const connection = await voiceChannel.join();
-
-        const search = async (query) => {
-            const result = await ytSearch(query);
-            
-            if (result.videos.length > 1)
-                return result.videos[0];
-            else
-                return null;
-        };
-
-        const video = await search(args.join(' '));
-
-        if (video) {
-            const music = ytdl(video.url, {filter: 'audioonly'});
+        if (checkUrl(args[0])) {
+            const connection = await voiceChannel.join();
+            const music = ytdl(args[0], {filter: 'audioonly'});
             connection.play(music, {seek: 0, volume: 0.5})
             .on('finish', () => {
-                message.channel.send(`Finished playing ***\`${video.title}\`***!`);
+                message.channel.send(`Finished playing ***\`${args[0]}\`***!`);
             });
 
-            newEmbed.setDescription(`***\`${video.title}\`***`)
-            newEmbed.setImage(video.thumbnail);
+            newEmbed.setDescription(`***\`${args[0]}\`***`)
             newEmbed.addFields(
-                {name: `Requested by \`${message.author.tag}\``, value: `${video.url}`}
+                {name: `Requested by \`${message.author.tag}\``, value: `${args[0]}`}
             );
             await message.channel.send(newEmbed);
         }
         else {
-            message.channel.send(`No results found :slight_frown:`);
+            const connection = await voiceChannel.join();
+            const search = async (query) => {
+                const result = await ytSearch(query);
+                
+                if (result.videos.length > 1)
+                    return result.videos[0];
+                else
+                    return null;
+            };
+
+            const video = await search(args.join(' '));
+
+            if (video) {
+                const music = ytdl(video.url, {filter: 'audioonly'});
+                connection.play(music, {seek: 0, volume: 0.5})
+                .on('finish', () => {
+                    message.channel.send(`Finished playing ***\`${video.title}\`***!`);
+                });
+
+                console.log('Playing a song!');
+                newEmbed.setDescription(`***\`${video.title}\`***`)
+                newEmbed.setImage(video.thumbnail);
+                newEmbed.addFields(
+                    {name: `Requested by \`${message.author.tag}\``, value: `${video.url}`}
+                );
+                await message.channel.send(newEmbed);
+            }
+            else {
+                message.channel.send(`No results found :slight_frown:`);
+            }
         }
     }
 }
