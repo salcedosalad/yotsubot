@@ -6,14 +6,25 @@ Feel free to use the files yourself or contribute commands/features.
 
 Current (committed) commands include:
 
+	BASIC COMMANDS
 	help - Lists commands or gives info on a specific command
+	ping - Checks if bot is responsive
+	say - Makes bot repeat given text
+	argtest - Tests command/argument parsing
+	
+	MUSIC COMMANDS
+	play - Searches for and plays audio from a YouTube video (also queues)
+	leave - Stops playing music and leaves the voice channel
+	queue - Shows the current music request queue
+	clearqueue - Clears the music request queue
+	
+	SIMPLE ARITHMETIC
 	add (+) - Adds all given numbers
 	subtract (-) - Subtracts all given numbers from L->R
 	multiply (*) - Multiplies all given numbers
 	divide (/) - Divides all given numbers from L->R
-   	argtest - Tests command/argument parsing
-   	ping - Checks if bot is responsive
-   	say - Makes bot repeat given text
+	
+   	EXTRA COMMANDS
    	sadcatto - Sad cat :(
 
 Thank you!
