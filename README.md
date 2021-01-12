@@ -3,6 +3,7 @@ This is a lightweight Discord bot that can perform various functions.
 Mostly developed for practice and/or fun.
 
 Feel free to use the files yourself or contribute commands/features.
+The default prefix is "y:"
 
 Current (committed) commands include:
 
