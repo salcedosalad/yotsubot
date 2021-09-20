@@ -1,0 +1,29 @@
+{
+  "name": "yotsubot",
+  "version": "0.0.1",
+  "description": "A lightweight Discord bot.",
+  "main": "yotsubot_main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salcedosalad/yotsubot.git"
+  },
+  "author": "salcedosalad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/salcedosalad/yotsubot/issues"
+  },
+  "homepage": "https://github.com/salcedosalad/yotsubot#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.3",
+    "discord.js": "^12.5.3",
+    "ffmpeg-static": "^4.4.0",
+    "opusscript": "0.0.7",
+    "tar": "^6.1.11",
+    "ws": "^8.2.1",
+    "yt-search": "^2.10.1",
+    "ytdl-core": "^4.9.1"
+  }
+}
