@@ -31,18 +31,26 @@ module.exports = {
             return regexp.test(url);
         }
         
-        //returns first video result of ytSearch using given query
-        const search = async (query) => {
-            const result = await ytSearch(query);
-            
-            if (result.videos.length > 1)
-                return result.videos[0];
-            else
-                return null;
+        //returns first video result of ytSearch using given query or video ID
+        const search = async (query, idFlag) => {
+            var result;
+            if (idFlag) {
+                result = await ytSearch( { videoId: query } );
+                return result;
+            }
+            else {
+                result = await ytSearch(query);
+                
+                if (result.videos.length > 1)
+                    return result.videos[0];
+                else
+                    return null;
+            }
         };
 
         const connection = await voiceChannel.join();
         var query = args.join(' ');
+        var video;
         
         if(checkUrl(args[0])) {
             //only retrieve the last part of the url
@@ -59,10 +67,13 @@ module.exports = {
             //remove part before video code if it exists
             if (urlQuery[1].includes("watch?v="))
                 query = query.replace("watch?v=", ""); 
-        }
 
-        //search for the video to play
-        const video = await search(query);
+            //search using the id
+            video = await search(query, 1);
+        }
+        else
+            //search for the video using search args
+            video = await search(query, 0);
 
         if (video) {
             music.song = ytdl(video.url, {filter: 'audioonly'});
