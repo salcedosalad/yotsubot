@@ -7,6 +7,7 @@ const fs = require('fs');
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+var music = { song: "", audiostream: "" };
 let queueMessage = new Array();
 let queueArgs = new Array();
 let playing = 0;
@@ -35,7 +36,7 @@ client.on('message', message => {
     if (message.author === client.user && message.content.startsWith('Finished playing')) {
         console.log('Detected end of song!');
         if (queueMessage.length !== 0)
-            client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord);
+            client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord), music;
         else
             playing = 0;
     }
@@ -97,7 +98,7 @@ client.on('message', message => {
         //if there is no song playing, just fulfill the request if there is one
         else if (args.length) {
             playing = 1;
-            client.commands.get('play').execute(message, args, Discord);
+            client.commands.get('play').execute(message, args, Discord, music);
         }
     }
     else if (command === 'leave' || command === 'stop') {
@@ -120,6 +121,12 @@ client.on('message', message => {
             client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord);
         else
             playing = 0;
+    }
+    else if (command === 'pause') {
+        client.commands.get('pause').execute(message, Discord, music);
+    }
+    else if (command === 'resume') {
+        client.commands.get('resume').execute(message, Discord, music);
     }
     
     //EXTRA COMMANDS
