@@ -19,6 +19,8 @@ Current (committed) commands include:
 	queue - Shows the current music request queue
 	clearqueue - Clears the music request queue
 	skip - Skips the song currently playing
+	pause - Pauses currently playing song
+	resume - Resumes currently playing song
 	
 	SIMPLE ARITHMETIC
 	add (+) - Adds all given numbers
