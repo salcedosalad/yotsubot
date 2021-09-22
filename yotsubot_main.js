@@ -37,7 +37,7 @@ client.on('message', message => {
         if (queueMessage.length !== 0)
             client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord, music);
         else
-            playing = 0;
+            music.playing = 0;
     }
 
     //if the message doesn't have a prefix or is sent by another bot, ignore it
