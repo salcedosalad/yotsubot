@@ -1,7 +1,7 @@
 module.exports = {
     name: 'skip',
     description: "This skips the current song being played. `Ex. y:skip or y:s`",
-    async execute(message, args, Discord) {
+    async execute(message, args, Discord, music) {
         const voiceChannel = message.member.voice.channel;
         if (!voiceChannel)
             return message.channel.send(`You must be in a voice channel, ${message.author}!`);
@@ -10,12 +10,10 @@ module.exports = {
         if (!permissions.has('CONNECT') || !permissions.has('SPEAK'))
             return message.channel.send(`You don't have correct permissions, ${message.author}!`);
 
-        const connection = await voiceChannel.join();
-
-        if (!connection.dispatcher)
+        if (!music.audiostream)
             return message.channel.send(`There is nothing currently playing, ${message.author}!`);
 
-        connection.dispatcher.pause();
+        music.audiostream.pause();
 
         const skipEmbed = new Discord.MessageEmbed()
         .setColor('#ffb74a')

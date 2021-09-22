@@ -115,9 +115,9 @@ client.on('message', message => {
         client.commands.get('clearqueue').execute(message, args, Discord);
     }
     else if (command === 'skip' || command === 's') {
-        client.commands.get('skip').execute(message, args, Discord);
+        client.commands.get('skip').execute(message, args, Discord, music);
         if (queueMessage.length !== 0)
-            client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord);
+            client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord, music);
         else
             music.playing = 0;
     }
