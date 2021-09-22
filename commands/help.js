@@ -35,7 +35,9 @@ module.exports = {
             {name: 'leave', value: 'Stops playing music and leaves the voice channel.'},
             {name: 'queue', value: 'Shows the current music request queue.'},
             {name: 'clearqueue', value: 'Clears the music request queue.'},
-            {name: 'skip', value: 'Skips the current song being played.'}
+            {name: 'skip', value: 'Skips the current song being played.'},
+            {name: 'pause', value: 'Pauses the current song.'},
+            {name: 'resume', value: 'Resumes playing the current song.'}
         )
         .setThumbnail('https://i.imgur.com/cR5qQgW.jpg')
         .setFooter(`Page 2 of ${MAX+1}`);
