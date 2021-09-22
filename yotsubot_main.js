@@ -7,10 +7,9 @@ const fs = require('fs');
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-var music = { song: "", audiostream: "" };
+var music = { song: "", audiostream: "", playing: 0, title: "" };
 let queueMessage = new Array();
 let queueArgs = new Array();
-let playing = 0;
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
@@ -90,20 +89,20 @@ client.on('message', message => {
     //MUSIC COMMANDS
     else if (command === 'play' || command === 'p') {
         //if a song is currently playing, push the request into the queue
-        if (playing) {
+        if (music.playing) {
             queueMessage.push(message);
             queueArgs.push(args);
             client.commands.get('queueMessage').execute(message, args, Discord, queueMessage.length);
         }
         //if there is no song playing, just fulfill the request if there is one
         else if (args.length) {
-            playing = 1;
+            music.playing = 1;
             client.commands.get('play').execute(message, args, Discord, music);
         }
     }
     else if (command === 'leave' || command === 'stop') {
         client.commands.get('stop').execute(message, args, Discord);
-        playing = 0;
+        music.playing = 0;
         queueMessage.length = 0;
         queueArgs.length = 0;
     }
@@ -120,7 +119,7 @@ client.on('message', message => {
         if (queueMessage.length !== 0)
             client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord);
         else
-            playing = 0;
+            music.playing = 0;
     }
     else if (command === 'pause') {
         client.commands.get('pause').execute(message, Discord, music);

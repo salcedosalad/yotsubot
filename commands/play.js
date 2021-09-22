@@ -58,7 +58,10 @@ module.exports = {
 
         if (video) {
             music.song = ytdl(video.url, {filter: 'audioonly'});
-            console.log(`Playing a song: \`${video.title}\``);
+            music.title = video.title;
+
+            console.log(`Playing a song: ${video.title}`);
+
             newEmbed.setDescription(`***\`${video.title}\`***`)
             newEmbed.setImage(video.thumbnail);
             newEmbed.addFields(
@@ -70,6 +73,7 @@ module.exports = {
             .on('finish', () => {
                 message.channel.send(`Finished playing ***\`${video.title}\`***!`);
             });
+            
             return;
         }
         else {
