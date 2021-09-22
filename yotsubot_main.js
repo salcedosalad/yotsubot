@@ -35,7 +35,7 @@ client.on('message', message => {
     if (message.author === client.user && message.content.startsWith('Finished playing')) {
         console.log('Detected end of song!');
         if (queueMessage.length !== 0)
-            client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord), music;
+            client.commands.get('play').execute(queueMessage.shift(), queueArgs.shift(), Discord, music);
         else
             playing = 0;
     }
