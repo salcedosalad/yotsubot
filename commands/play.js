@@ -30,51 +30,51 @@ module.exports = {
             return regexp.test(url);
         }
 
-        if (checkUrl(args[0])) {
-            const connection = await voiceChannel.join();
-            music.song = ytdl(args[0], {filter: 'audioonly'});
-            music.audiostream = connection.play(music, {seek: 0, volume: 0.5})
-            .on('finish', () => {
-                message.channel.send(`Finished playing ***\`${args[0]}\`***!`);
-            });
+        const connection = await voiceChannel.join();
+        const search = async (query) => {
+            const result = await ytSearch(query);
+            
+            if (result.videos.length > 1)
+                return result.videos[0];
+            else
+                return null;
+        };
 
-            newEmbed.setDescription(`***\`${args[0]}\`***`)
+        var query = args.join(' ');
+        
+        if(checkUrl(args[0])) {
+            var urlQuery = args[0].match(/.*\/(.+)/);
+            if (!urlQuery[1] || !(args[0].includes("youtube") || args[0].includes("youtu.be"))) {
+                message.channel.send(`Invalid YouTube URL, ${message.author}!`);
+                return;
+            }
+            query = urlQuery[1];
+
+            if (urlQuery[1].includes("watch?v="))
+                query = query.replace("watch?v=", ""); 
+        }
+
+        const video = await search(query);
+
+        if (video) {
+            music.song = ytdl(video.url, {filter: 'audioonly'});
+            console.log(`Playing a song: \`${video.title}\``);
+            newEmbed.setDescription(`***\`${video.title}\`***`)
+            newEmbed.setImage(video.thumbnail);
             newEmbed.addFields(
-                {name: `${args[0]}`, value: `Requested by ${message.author}`}
+                {name: `${video.url}`, value: `Requested by ${message.author}`}
             );
             await message.channel.send(newEmbed);
+
+            music.audiostream = connection.play(music.song, {seek: 0, volume: 0.5})
+            .on('finish', () => {
+                message.channel.send(`Finished playing ***\`${video.title}\`***!`);
+            });
+            return;
         }
         else {
-            const connection = await voiceChannel.join();
-            const search = async (query) => {
-                const result = await ytSearch(query);
-                
-                if (result.videos.length > 1)
-                    return result.videos[0];
-                else
-                    return null;
-            };
-
-            const video = await search(args.join(' '));
-
-            if (video) {
-                music.song = ytdl(video.url, {filter: 'audioonly'});
-                console.log('Playing a song!');
-                newEmbed.setDescription(`***\`${video.title}\`***`)
-                newEmbed.setImage(video.thumbnail);
-                newEmbed.addFields(
-                    {name: `${video.url}`, value: `Requested by ${message.author}`}
-                );
-                await message.channel.send(newEmbed);
-
-                music.audiostream = connection.play(music.song, {seek: 0, volume: 0.5})
-                .on('finish', () => {
-                    message.channel.send(`Finished playing ***\`${video.title}\`***!`);
-                });
-            }
-            else {
-                message.channel.send(`No results found :slight_frown:`);
-            }
+            message.channel.send(`No results found :slight_frown:`);
+            return;
         }
     }
 }
