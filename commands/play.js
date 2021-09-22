@@ -25,12 +25,13 @@ module.exports = {
             return;
         }
         
+        //verifies that a given test string is a url
         const checkUrl = (url) => {
             var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
             return regexp.test(url);
         }
-
-        const connection = await voiceChannel.join();
+        
+        //returns first video result of ytSearch using given query
         const search = async (query) => {
             const result = await ytSearch(query);
             
@@ -40,20 +41,27 @@ module.exports = {
                 return null;
         };
 
+        const connection = await voiceChannel.join();
         var query = args.join(' ');
         
         if(checkUrl(args[0])) {
+            //only retrieve the last part of the url
             var urlQuery = args[0].match(/.*\/(.+)/);
+
+            //if there is no final part of the URL or if the URL is not a youtube link, it's invalid
             if (!urlQuery[1] || !(args[0].includes("youtube") || args[0].includes("youtu.be"))) {
                 message.channel.send(`Invalid YouTube URL, ${message.author}!`);
                 return;
             }
-            query = urlQuery[1];
 
+            query = urlQuery[1];
+            
+            //remove part before video code if it exists
             if (urlQuery[1].includes("watch?v="))
                 query = query.replace("watch?v=", ""); 
         }
 
+        //search for the video to play
         const video = await search(query);
 
         if (video) {
@@ -73,7 +81,7 @@ module.exports = {
             .on('finish', () => {
                 message.channel.send(`Finished playing ***\`${video.title}\`***!`);
             });
-            
+
             return;
         }
         else {
